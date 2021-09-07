@@ -4,6 +4,7 @@ import android.app.Activity;
 
 import androidx.annotation.NonNull;
 
+import com.facebook.ads.AudienceNetworkAds;
 import com.mopub.common.MoPub;
 import com.mopub.common.SdkConfiguration;
 import com.mopub.common.SdkInitializationListener;
@@ -58,11 +59,16 @@ public class MopubFlutterPlugin implements MethodCallHandler {
     }
 
     private boolean init(HashMap initValues) {
+        final boolean isFacebookBidding = (boolean) initValues.get("isFacebookBidding");
         final boolean testMode = (boolean) initValues.get("testMode");
         final String adUnitId = (String) initValues.get("adUnitId");
 
         final SdkConfiguration.Builder configBuilder = new SdkConfiguration.Builder(adUnitId)
                 .withLogLevel(testMode ? MoPubLog.LogLevel.DEBUG : MoPubLog.LogLevel.NONE);
+
+        if (isFacebookBidding) {
+            AudienceNetworkAds.initialize(activity);
+        }
 
         MoPub.initializeSdk(activity, configBuilder.build(), new SdkInitializationListener() {
             @Override
@@ -71,6 +77,8 @@ public class MopubFlutterPlugin implements MethodCallHandler {
                         " AdUnitId: " + adUnitId + " TestMode:" + testMode);
             }
         });
+
+
 
         return true;
     }

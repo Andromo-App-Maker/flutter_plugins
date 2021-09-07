@@ -48,5 +48,7 @@ dependencies {
         transitive = true
     }
 
+    implementation 'com.facebook.android:audience-network-sdk:6.6.0'
+    implementation 'com.mopub.mediation:facebookaudiencenetwork:6.6.0.0'
 }
 

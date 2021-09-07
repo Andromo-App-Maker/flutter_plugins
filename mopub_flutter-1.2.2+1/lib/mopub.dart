@@ -6,10 +6,11 @@ import 'package:flutter/services.dart';
 class MoPub {
   static const MethodChannel _channel = const MethodChannel(MAIN_CHANNEL);
 
-  static Future<void> init(String adUnitId, {bool testMode = false}) async {
+  static Future<void> init(String adUnitId, {bool testMode = false, bool isFacebookBidding = false}) async {
     Map<String, dynamic> initValues = {
       "testMode": testMode,
       "adUnitId": adUnitId,
+      "isFacebookBidding": isFacebookBidding
     };
 
     try {
