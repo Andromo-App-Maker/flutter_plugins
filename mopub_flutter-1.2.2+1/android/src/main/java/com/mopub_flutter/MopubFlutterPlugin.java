@@ -75,9 +75,9 @@ public class MopubFlutterPlugin implements MethodCallHandler {
                 Class cls = activity.getClassLoader().loadClass("com.facebook.ads.AudienceNetworkAds");
                 Method method = cls.getMethod("initialize", Context.class);
                 method.invoke(null, activity);
-                MoPubLog.log(CUSTOM, "FAN Loaded");
+                Log.d("TEST", "FAN Loaded");
             } catch (Exception e) {
-                MoPubLog.log(CUSTOM, e.toString());
+                Log.d("TEST", e.toString());
             }
         }
 
