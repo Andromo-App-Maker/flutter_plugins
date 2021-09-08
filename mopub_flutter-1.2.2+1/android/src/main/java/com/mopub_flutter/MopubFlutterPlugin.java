@@ -1,6 +1,7 @@
 package com.mopub_flutter;
 
 import android.app.Activity;
+import android.content.Context;
 
 import androidx.annotation.NonNull;
 
@@ -10,6 +11,7 @@ import com.mopub.common.SdkConfiguration;
 import com.mopub.common.SdkInitializationListener;
 import com.mopub.common.logging.MoPubLog;
 
+import java.lang.reflect.Method;
 import java.util.HashMap;
 
 import io.flutter.plugin.common.MethodCall;
@@ -67,7 +69,14 @@ public class MopubFlutterPlugin implements MethodCallHandler {
                 .withLogLevel(testMode ? MoPubLog.LogLevel.DEBUG : MoPubLog.LogLevel.NONE);
 
         if (isFacebookBidding) {
-            AudienceNetworkAds.initialize(activity);
+            try {
+                Class cls = activity.getClassLoader().loadClass("com.facebook.ads.AudienceNetworkAds");
+                Method method = cls.getMethod("initialize", Context.class);
+                method.invoke(null, activity);
+                MoPubLog.log(CUSTOM, "FAN Loaded");
+            } catch (Exception e) {
+                MoPubLog.log(CUSTOM, e.toString());
+            }
         }
 
         MoPub.initializeSdk(activity, configBuilder.build(), new SdkInitializationListener() {
