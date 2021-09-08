@@ -2,6 +2,7 @@ package com.mopub_flutter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -66,6 +67,8 @@ public class MopubFlutterPlugin implements MethodCallHandler {
 
         final SdkConfiguration.Builder configBuilder = new SdkConfiguration.Builder(adUnitId)
                 .withLogLevel(testMode ? MoPubLog.LogLevel.DEBUG : MoPubLog.LogLevel.NONE);
+
+        Log.d("TEST", "isFacebookBidding: " + isFacebookBidding);
 
         if (isFacebookBidding) {
             try {
