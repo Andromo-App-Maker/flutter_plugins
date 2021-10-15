@@ -22,20 +22,23 @@ import io.flutter.plugin.common.PluginRegistry;
 
 import static com.mopub.common.logging.MoPubLog.SdkLogEvent.CUSTOM;
 
+import io.flutter.embedding.engine.plugins.activity.ActivityAware;
+import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding;
+
 /**
  * MopubFlutterPlugin
  */
-public class MopubFlutterPlugin implements MethodCallHandler {
+public class MopubFlutterPlugin implements MethodCallHandler, ActivityAware  {
 
-    private Activity activity;
+    private Context context;
 
-    private MopubFlutterPlugin(Activity activity) {
-        this.activity = activity;
+    private MopubFlutterPlugin(Context context) {
+        this.context = context;
     }
 
     public static void registerWith(PluginRegistry.Registrar registrar) {
         final MethodChannel channel = new MethodChannel(registrar.messenger(), MopubConstants.MAIN_CHANNEL);
-        channel.setMethodCallHandler(new MopubFlutterPlugin(registrar.activity()));
+        channel.setMethodCallHandler(new MopubFlutterPlugin(registrar.context()));
 
         // Interstitial Ad channel
         final MethodChannel interstitialAdChannel = new MethodChannel(registrar.messenger(),
@@ -70,18 +73,7 @@ public class MopubFlutterPlugin implements MethodCallHandler {
 
         Log.d("TEST", "isFacebookBidding: " + isFacebookBidding);
 
-        if (isFacebookBidding) {
-            try {
-                Class cls = activity.getClassLoader().loadClass("com.facebook.ads.AudienceNetworkAds");
-                Method method = cls.getMethod("initialize", Context.class);
-                method.invoke(null, activity);
-                Log.d("TEST", "FAN Loaded");
-            } catch (Exception e) {
-                Log.d("TEST", e.toString());
-            }
-        }
-
-        MoPub.initializeSdk(activity, configBuilder.build(), new SdkInitializationListener() {
+        MoPub.initializeSdk(context, configBuilder.build(), new SdkInitializationListener() {
             @Override
             public void onInitializationFinished() {
                 MoPubLog.log(CUSTOM, "##Flutter## MoPub SDK initialized." +
@@ -93,4 +85,18 @@ public class MopubFlutterPlugin implements MethodCallHandler {
 
         return true;
     }
+
+    void onAttachedToActivity(@NonNull ActivityPluginBinding binding) {
+
+    }
+
+    void onDetachedFromActivityForConfigChanges() {
+
+    }
+
+    void onReattachedToActivityForConfigChanges(@NonNull ActivityPluginBinding binding) {
+
+    }
+
+    void onDetachedFromActivity();
 }
