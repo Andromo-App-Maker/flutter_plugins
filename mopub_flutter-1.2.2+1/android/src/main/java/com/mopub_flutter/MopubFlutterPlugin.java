@@ -76,7 +76,7 @@ public class MopubFlutterPlugin implements MethodCallHandler  {
         MoPub.initializeSdk(context, configBuilder.build(), new SdkInitializationListener() {
             @Override
             public void onInitializationFinished() {
-                MoPubLog.log(CUSTOM, "##Flutter## MoPub SDK initialized." +
+                Log.d("TEST", "##Flutter## MoPub SDK initialized." +
                         " AdUnitId: " + adUnitId + " TestMode:" + testMode);
             }
         });
