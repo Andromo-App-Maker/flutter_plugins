@@ -28,7 +28,7 @@ import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding;
 /**
  * MopubFlutterPlugin
  */
-public class MopubFlutterPlugin implements MethodCallHandler, ActivityAware  {
+public class MopubFlutterPlugin implements MethodCallHandler  {
 
     private Context context;
 
@@ -85,18 +85,4 @@ public class MopubFlutterPlugin implements MethodCallHandler, ActivityAware  {
 
         return true;
     }
-
-    void onAttachedToActivity(@NonNull ActivityPluginBinding binding) {
-
-    }
-
-    void onDetachedFromActivityForConfigChanges() {
-
-    }
-
-    void onReattachedToActivityForConfigChanges(@NonNull ActivityPluginBinding binding) {
-
-    }
-
-    void onDetachedFromActivity();
 }
